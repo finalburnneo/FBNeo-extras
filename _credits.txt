@@ -1,0 +1,23 @@
+Screenshots by:
+
+Jets (www.emu-france.com)				= Arcade (original maintainer) 
+John IV (www.mameui.info)				= some Arcade previews
+Mucci (www.mametitles.com)				= some Arcade titles
+JacKc (nesource.1emu.net)				= Turbografx16 (previews and titles) , some Arcade (previews and titles) , Megadrive, PCE, SMS (previews and titles) & some GG (previews and titles)
+Sturm (neosource.1emu.net member)			= Megadrive (previews and titles)
+Daffyduck (http://bit.ly/12OCLGU)			= updated and managed to re-build the screenshots packs
+dink (neosource.1emu.net)				= some Arcade & Megadrive (previews and titles), Coleco and SG1000 (previews and tiltles)
+Joaquim2020 						= updated original FBA .43 pack to FBN and more
+Neville/Gab75/Cocker/barbudreadmon/Geese/Goratrix	= update FBN pack and more (wip: https://mega.nz/folder/x5hVHZwb#6kNqm1O6sHauUSW_Xbyvfg)
+Latest GIT						= https://github.com/finalburnneo/FBNeo-extras/archive/refs/heads/main.zip
+
+
+and...
+
+Thanks to emu-france.com/gametronik.com/icons.mameworld.info/progettosnaps.net/mamechannel.it…
+
+All screenshots are compressed with PNGGautlet v3.1.2.0 (best)
+
+--
+Mr J.
+Emu-France.com
