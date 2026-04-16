@@ -1,22 +1,57 @@
-Screenshots by:
+===================
+SCREENSHOTS CREDITS
+===================
 
-Jets (www.emu-france.com)					= Arcade (original maintainer) 
-John IV (john-iv.github.io/iv-play)				= some Arcade previews
-Mucci (is.gd/pvX7w6)						= some Arcade titles
-JacKc (https://neo-source.com)					= Turbografx16 (previews and titles) , some Arcade (previews and titles) , Megadrive, PCE, SMS (previews and titles) & some GG (previews and titles)
-Sturm (https://neo-source.com member)				= Megadrive (previews and titles)
-Daffyduck (www.retroroms.info member)				= updated and managed to re-build the screenshots packs
-dink (https://neo-source.com)					= some Arcade & Megadrive (previews and titles), Coleco and SG1000 (previews and tiltles)
-Joaquim2020 							= updated original FBA .43 pack to FBN and more
-Neville/Gab75/Cocker/barbudreadmon/Geese/Goratrix/eye2eye/Wtorm	= update FBN pack and more
-Latest GIT							= https://github.com/finalburnneo/FBNeo-extras/archive/refs/heads/main.zip
+Jets (www.emu-france.com)
+  - Original maintainer
+  - All original shots
+
+John IV (john-iv.github.io/iv-play)
+  - Some previews
+
+Mucci (is.gd/pvX7w6)
+  - Some titles
+
+JacKc (www.neo-source.com)
+  - Arcade: previews & titles
+  - Turbografx-16: previews & titles
+  - Megadrive / PCE / SMS: previews & titles
+  - Game Gear: partial previews & titles
+
+Dink (www.neo-source.com)
+  - Arcade & Megadrive: previews & titles
+  - ColecoVision & SG-1000: previews & titles
+
+Sturm (neo-source.com member)
+  - Megadrive: previews & titles
+
+Daffyduck (retroroms.info member)
+  - Rebuilt and updated screenshot packs
+
+Joaquim2020
+  - Updated original FBA 0.43 pack to FBN and more
+
+Neville / Gab75 / Cocker / Barbudreadmon / Geese / Goratrix / eye2eye / Wtorm / Igor_Arabe
+  - FBN pack updates and additional contributions
+
+Latest GIT
+  - https://github.com/finalburnneo/FBNeo-extras/archive/refs/heads/main.zip
 
 
-and...
+[SPECIAL THANKS]
 
-Thanks to emu-france.com/gametronik.com/icons.mameworld.info/progettosnaps.net/mamechannel.it/etc..
+emu-france.com
+gametronik.com
+icons.mameworld.info
+progettosnaps.net
+mamechannel.it
+and others...
 
-All screenshots are compressed with PNGGautlet v3.1.2.0 (best) or OxiPNG (max).
+
+[TECHNICAL NOTES]
+
+All screenshots are compressed using:
+  - OxiPNG (maximum compression)
 
 --
 Mr J.
