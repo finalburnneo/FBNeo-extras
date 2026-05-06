@@ -34,7 +34,7 @@ jobs:
         shell: bash {0}
     steps:
       - name: Clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build
         id: create_titles_archive
@@ -48,14 +48,14 @@ jobs:
           echo archive_path= '${{ steps.create_titles_archive.outputs.archive_file }}' > $TITLES_ARTIFACT_PATH
 
       - name: Upload Archive Path
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.TITLES_ARTIFACT }}
           path: ${{ env.TITLES_ARTIFACT_PATH }}
           retention-days: 1
 
       - name: Upload Archive as Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.TITLES_ARCHIVE_ARTIFACT }}
           path: ${{ steps.create_titles_archive.outputs.archive_file }}
@@ -70,7 +70,7 @@ jobs:
         shell: bash {0}
     steps:
       - name: Clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build
         id: create_previews_archive
@@ -84,14 +84,14 @@ jobs:
           echo archive_path= '${{ steps.create_previews_archive.outputs.archive_file }}' > $PREVIEWS_ARTIFACT_PATH
 
       - name: Upload Archive Path
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.PREVIEWS_ARTIFACT }}
           path: ${{ env.PREVIEWS_ARTIFACT_PATH }}
           retention-days: 1
 
       - name: Upload Archive as Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.PREVIEWS_ARCHIVE_ARTIFACT }}
           path: ${{ steps.create_previews_archive.outputs.archive_file }}
@@ -106,7 +106,7 @@ jobs:
         shell: bash {0}
     steps:
       - name: Clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build
         id: create_icons_archive
@@ -120,14 +120,14 @@ jobs:
           echo archive_path= '${{ steps.create_icons_archive.outputs.archive_file }}' > $ICONS_ARTIFACT_PATH
 
       - name: Upload Archive Path
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.ICONS_ARTIFACT }}
           path: ${{ env.ICONS_ARTIFACT_PATH }}
           retention-days: 1
 
       - name: Upload Archive as Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.ICONS_ARCHIVE_ARTIFACT }}
           path: ${{ steps.create_icons_archive.outputs.archive_file }}
@@ -142,7 +142,7 @@ jobs:
         shell: bash {0}
     steps:
       - name: Clone
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build
         id: create_flyers_archive
@@ -156,14 +156,14 @@ jobs:
           echo archive_path= '${{ steps.create_flyers_archive.outputs.archive_file }}' > $FLYERS_ARTIFACT_PATH
 
       - name: Upload Archive Path
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.FLYERS_ARTIFACT }}
           path: ${{ env.FLYERS_ARTIFACT_PATH }}
           retention-days: 1
 
       - name: Upload Archive as Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.FLYERS_ARCHIVE_ARTIFACT }}
           path: ${{ steps.create_flyers_archive.outputs.archive_file }}
@@ -175,13 +175,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # We'll need the repo if we want to use gh command line later
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       # titles
       - name: Download Artifact (titles)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ env.TITLES_ARTIFACT }}
 
@@ -192,13 +192,13 @@ jobs:
           echo "archive_path=$archive_path" >> $GITHUB_OUTPUT
 
       - name: Download Artifact with Archive (titles)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ env.TITLES_ARCHIVE_ARTIFACT }}
 
       # previews
       - name: Download Artifact (previews)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ env.PREVIEWS_ARTIFACT }}
 
@@ -209,13 +209,13 @@ jobs:
           echo "archive_path=$archive_path" >> $GITHUB_OUTPUT
 
       - name: Download Artifact with Archive (previews)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ env.PREVIEWS_ARCHIVE_ARTIFACT }}
 
       # icons
       - name: Download Artifact (icons)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ env.ICONS_ARTIFACT }}
 
@@ -226,13 +226,13 @@ jobs:
           echo "archive_path=$archive_path" >> $GITHUB_OUTPUT
 
       - name: Download Artifact with Archive (icons)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ env.ICONS_ARCHIVE_ARTIFACT }}
 
       # flyers
       - name: Download Artifact (flyers)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ env.FLYERS_ARTIFACT }}
 
@@ -243,7 +243,7 @@ jobs:
           echo "archive_path=$archive_path" >> $GITHUB_OUTPUT
 
       - name: Download Artifact with Archive (flyers)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ env.FLYERS_ARCHIVE_ARTIFACT }}
 
