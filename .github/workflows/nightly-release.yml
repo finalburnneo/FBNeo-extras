@@ -35,7 +35,7 @@ jobs:
         run: |
           archive_file="${{ env.TITLES_ARTIFACT }}.zip"
           echo "archive_file=${archive_file}" >> $GITHUB_OUTPUT
-          zip "${archive_file}" titles
+          zip -r "${archive_file}" titles
 
       - name: Create Archive Path
         run: |
@@ -71,7 +71,7 @@ jobs:
         run: |
           archive_file="${{ env.PREVIEWS_ARTIFACT }}.zip"
           echo "archive_file=${archive_file}" >> $GITHUB_OUTPUT
-          zip "${archive_file}" previews
+          zip -r "${archive_file}" previews
 
       - name: Create Archive Path
         run: |
