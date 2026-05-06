@@ -17,6 +17,12 @@ env:
     PREVIEWS_ARTIFACT: previews
     PREVIEWS_ARTIFACT_PATH: previews.txt
     PREVIEWS_ARCHIVE_ARTIFACT: previews-archive
+    ICONS_ARTIFACT: icons
+    ICONS_ARTIFACT_PATH: icons.txt
+    ICONS_ARCHIVE_ARTIFACT: icons-archive
+    FLYERS_ARTIFACT: flyers
+    FLYERS_ARTIFACT_PATH: flyers.txt
+    FLYERS_ARCHIVE_ARTIFACT: flyers-archive
 
 jobs:
   build_titles:
@@ -91,8 +97,80 @@ jobs:
           path: ${{ steps.create_previews_archive.outputs.archive_file }}
           retention-days: 1
 
+  build_icons:
+    name: Build Icons
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    defaults:
+      run:
+        shell: bash {0}
+    steps:
+      - name: Clone
+        uses: actions/checkout@v4
+
+      - name: Build
+        id: create_icons_archive
+        run: |
+          archive_file="${{ env.ICONS_ARTIFACT }}.zip"
+          echo "archive_file=${archive_file}" >> $GITHUB_OUTPUT
+          zip -r "${archive_file}" icons
+
+      - name: Create Archive Path
+        run: |
+          echo archive_path= '${{ steps.create_icons_archive.outputs.archive_file }}' > $ICONS_ARTIFACT_PATH
+
+      - name: Upload Archive Path
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ICONS_ARTIFACT }}
+          path: ${{ env.ICONS_ARTIFACT_PATH }}
+          retention-days: 1
+
+      - name: Upload Archive as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ICONS_ARCHIVE_ARTIFACT }}
+          path: ${{ steps.create_icons_archive.outputs.archive_file }}
+          retention-days: 1
+
+  build_flyers:
+    name: Build Flyers
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    defaults:
+      run:
+        shell: bash {0}
+    steps:
+      - name: Clone
+        uses: actions/checkout@v4
+
+      - name: Build
+        id: create_flyers_archive
+        run: |
+          archive_file="${{ env.FLYERS_ARTIFACT }}.zip"
+          echo "archive_file=${archive_file}" >> $GITHUB_OUTPUT
+          zip -r "${archive_file}" flyers
+
+      - name: Create Archive Path
+        run: |
+          echo archive_path= '${{ steps.create_flyers_archive.outputs.archive_file }}' > $FLYERS_ARTIFACT_PATH
+
+      - name: Upload Archive Path
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.FLYERS_ARTIFACT }}
+          path: ${{ env.FLYERS_ARTIFACT_PATH }}
+          retention-days: 1
+
+      - name: Upload Archive as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.FLYERS_ARCHIVE_ARTIFACT }}
+          path: ${{ steps.create_flyers_archive.outputs.archive_file }}
+          retention-days: 1
+
   release:
-    needs: [ build_titles, build_previews ]
+    needs: [ build_titles, build_previews, build_icons, build_flyers ]
     name: Release
     runs-on: ubuntu-latest
     steps:
@@ -135,6 +213,40 @@ jobs:
         with:
           name: ${{ env.PREVIEWS_ARCHIVE_ARTIFACT }}
 
+      # icons
+      - name: Download Artifact (icons)
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ICONS_ARTIFACT }}
+
+      - name: Extract Archive Path (icons) and Store in Step Outputs
+        id: store_icons
+        run: |
+          archive_path=`sed -E -n -e 's/archive_path= //p' $ICONS_ARTIFACT_PATH`
+          echo "archive_path=$archive_path" >> $GITHUB_OUTPUT
+
+      - name: Download Artifact with Archive (icons)
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ICONS_ARCHIVE_ARTIFACT }}
+
+      # flyers
+      - name: Download Artifact (flyers)
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLYERS_ARTIFACT }}
+
+      - name: Extract Archive Path (flyers) and Store in Step Outputs
+        id: store_flyers
+        run: |
+          archive_path=`sed -E -n -e 's/archive_path= //p' $FLYERS_ARTIFACT_PATH`
+          echo "archive_path=$archive_path" >> $GITHUB_OUTPUT
+
+      - name: Download Artifact with Archive (flyers)
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLYERS_ARCHIVE_ARTIFACT }}
+
       # Create new nightly
       - name: Release new nightly
         env:
@@ -145,4 +257,6 @@ jobs:
           fi
           gh release create "latest" --title "nightly release" --latest --target "${{ github.sha }}" \
             ${{ steps.store_titles.outputs.archive_path }} \
-            ${{ steps.store_previews.outputs.archive_path }}
+            ${{ steps.store_previews.outputs.archive_path }} \
+            ${{ steps.store_icons.outputs.archive_path }} \
+            ${{ steps.store_flyers.outputs.archive_path }}
