@@ -2,7 +2,9 @@ name: "nightly-release"
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
+
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
