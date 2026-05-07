@@ -41,7 +41,7 @@ jobs:
         run: |
           archive_file="${{ env.TITLES_ARTIFACT }}.zip"
           echo "archive_file=${archive_file}" >> $GITHUB_OUTPUT
-          zip -r "${archive_file}" titles
+          zip -r "${archive_file}" _credits.txt titles
 
       - name: Create Archive Path
         run: |
@@ -77,7 +77,7 @@ jobs:
         run: |
           archive_file="${{ env.PREVIEWS_ARTIFACT }}.zip"
           echo "archive_file=${archive_file}" >> $GITHUB_OUTPUT
-          zip -r "${archive_file}" previews
+          zip -r "${archive_file}" _credits.txt previews
 
       - name: Create Archive Path
         run: |
@@ -113,7 +113,7 @@ jobs:
         run: |
           archive_file="${{ env.ICONS_ARTIFACT }}.zip"
           echo "archive_file=${archive_file}" >> $GITHUB_OUTPUT
-          zip -r "${archive_file}" icons
+          zip -r "${archive_file}" _credits.txt icons
 
       - name: Create Archive Path
         run: |
@@ -149,7 +149,7 @@ jobs:
         run: |
           archive_file="${{ env.FLYERS_ARTIFACT }}.zip"
           echo "archive_file=${archive_file}" >> $GITHUB_OUTPUT
-          zip -r "${archive_file}" flyers
+          zip -r "${archive_file}" _credits.txt flyers
 
       - name: Create Archive Path
         run: |
