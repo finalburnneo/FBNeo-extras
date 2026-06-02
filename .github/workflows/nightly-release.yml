@@ -23,10 +23,16 @@ env:
     FLYERS_ARTIFACT: flyers
     FLYERS_ARTIFACT_PATH: flyers.txt
     FLYERS_ARCHIVE_ARTIFACT: flyers-archive
+    NEOCDZCOVERS_ARTIFACT: neocdzcovers
+    NEOCDZCOVERS_ARTIFACT_PATH: neocdzcovers.txt
+    NEOCDZCOVERS_ARCHIVE_ARTIFACT: neocdzcovers-archive
+    NEOCDZPREVIEWS_ARTIFACT: neocdzpreviews
+    NEOCDZPREVIEWS_ARTIFACT_PATH: neocdzpreviews.txt
+    NEOCDZPREVIEWS_ARCHIVE_ARTIFACT: neocdzpreviews-archive
 
 jobs:
   build_titles:
-    name: Build Titles
+    name: Build titles
     runs-on: ubuntu-latest
     continue-on-error: true
     defaults:
@@ -62,7 +68,7 @@ jobs:
           retention-days: 1
 
   build_previews:
-    name: Build Previews
+    name: Build previews
     runs-on: ubuntu-latest
     continue-on-error: true
     defaults:
@@ -98,7 +104,7 @@ jobs:
           retention-days: 1
 
   build_icons:
-    name: Build Icons
+    name: Build icons
     runs-on: ubuntu-latest
     continue-on-error: true
     defaults:
@@ -134,7 +140,7 @@ jobs:
           retention-days: 1
 
   build_flyers:
-    name: Build Flyers
+    name: Build flyers
     runs-on: ubuntu-latest
     continue-on-error: true
     defaults:
@@ -169,8 +175,80 @@ jobs:
           path: ${{ steps.create_flyers_archive.outputs.archive_file }}
           retention-days: 1
 
+  build_neocdzcovers:
+    name: Build neocdzcovers
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    defaults:
+      run:
+        shell: bash {0}
+    steps:
+      - name: Clone
+        uses: actions/checkout@v6
+
+      - name: Build
+        id: create_neocdzcovers_archive
+        run: |
+          archive_file="${{ env.NEOCDZCOVERS_ARTIFACT }}.zip"
+          echo "archive_file=${archive_file}" >> $GITHUB_OUTPUT
+          zip -r "${archive_file}" _credits.txt neocdzcovers
+
+      - name: Create Archive Path
+        run: |
+          echo archive_path= '${{ steps.create_neocdzcovers_archive.outputs.archive_file }}' > $NEOCDZCOVERS_ARTIFACT_PATH
+
+      - name: Upload Archive Path
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ env.NEOCDZCOVERS_ARTIFACT }}
+          path: ${{ env.NEOCDZCOVERS_ARTIFACT_PATH }}
+          retention-days: 1
+
+      - name: Upload Archive as Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ env.NEOCDZCOVERS_ARCHIVE_ARTIFACT }}
+          path: ${{ steps.create_neocdzcovers_archive.outputs.archive_file }}
+          retention-days: 1
+
+  build_neocdzpreviews:
+    name: Build neocdzpreviews
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    defaults:
+      run:
+        shell: bash {0}
+    steps:
+      - name: Clone
+        uses: actions/checkout@v6
+
+      - name: Build
+        id: create_neocdzpreviews_archive
+        run: |
+          archive_file="${{ env.NEOCDZPREVIEWS_ARTIFACT }}.zip"
+          echo "archive_file=${archive_file}" >> $GITHUB_OUTPUT
+          zip -r "${archive_file}" _credits.txt neocdzpreviews
+
+      - name: Create Archive Path
+        run: |
+          echo archive_path= '${{ steps.create_neocdzpreviews_archive.outputs.archive_file }}' > $NEOCDZPREVIEWS_ARTIFACT_PATH
+
+      - name: Upload Archive Path
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ env.NEOCDZPREVIEWS_ARTIFACT }}
+          path: ${{ env.NEOCDZPREVIEWS_ARTIFACT_PATH }}
+          retention-days: 1
+
+      - name: Upload Archive as Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ env.NEOCDZPREVIEWS_ARCHIVE_ARTIFACT }}
+          path: ${{ steps.create_neocdzpreviews_archive.outputs.archive_file }}
+          retention-days: 1
+
   release:
-    needs: [ build_titles, build_previews, build_icons, build_flyers ]
+    needs: [ build_titles, build_previews, build_icons, build_flyers, build_neocdzcovers, build_neocdzpreviews ]
     name: Release
     runs-on: ubuntu-latest
     steps:
@@ -247,6 +325,40 @@ jobs:
         with:
           name: ${{ env.FLYERS_ARCHIVE_ARTIFACT }}
 
+      # neocdzcovers
+      - name: Download Artifact (neocdzcovers)
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ env.NEOCDZCOVERS_ARTIFACT }}
+
+      - name: Extract Archive Path (neocdzcovers) and Store in Step Outputs
+        id: store_neocdzcovers
+        run: |
+          archive_path=`sed -E -n -e 's/archive_path= //p' $NEOCDZCOVERS_ARTIFACT_PATH`
+          echo "archive_path=$archive_path" >> $GITHUB_OUTPUT
+
+      - name: Download Artifact with Archive (neocdzcovers)
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ env.NEOCDZCOVERS_ARCHIVE_ARTIFACT }}
+
+      # neocdzpreviews
+      - name: Download Artifact (neocdzpreviews)
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ env.NEOCDZPREVIEWS_ARTIFACT }}
+
+      - name: Extract Archive Path (neocdzpreviews) and Store in Step Outputs
+        id: store_neocdzpreviews
+        run: |
+          archive_path=`sed -E -n -e 's/archive_path= //p' $NEOCDZPREVIEWS_ARTIFACT_PATH`
+          echo "archive_path=$archive_path" >> $GITHUB_OUTPUT
+
+      - name: Download Artifact with Archive (neocdzpreviews)
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ env.NEOCDZPREVIEWS_ARCHIVE_ARTIFACT }}
+
       # Create new nightly
       - name: Release new nightly
         env:
@@ -259,4 +371,6 @@ jobs:
             ${{ steps.store_titles.outputs.archive_path }} \
             ${{ steps.store_previews.outputs.archive_path }} \
             ${{ steps.store_icons.outputs.archive_path }} \
-            ${{ steps.store_flyers.outputs.archive_path }}
+            ${{ steps.store_flyers.outputs.archive_path }} \
+            ${{ steps.store_neocdzcovers.outputs.archive_path }} \
+            ${{ steps.store_neocdzpreviews.outputs.archive_path }}
